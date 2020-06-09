@@ -1,0 +1,42 @@
+config:
+  defaults:
+    headers:
+      target: "https://*"
+      User-Agent: 'Artillery Load Test for *'
+      Content-Type: 'application/json'
+      Authorization: "Bearer {{ $processEnvironment.* }}"
+
+  environments:
+    local:
+      target: "http://localhost:3000/api/v2"
+      processor: "./request_body_with_purchase.js"
+      phases:
+        - duration: 10
+          arrivalRate: 1
+          name: "Warm up to 1 rps"
+    test:
+      target: "https://*"
+      processor: "./request_body_with_purchase.js"
+      phases:
+        - duration: 60
+          arrivalRate: 4
+          name: "Warm up to 4 rps for 60 seconds"
+        - duration: 60
+          arrivalRate: 4
+          rampTo: 55
+          name: "Up to 55 rps in 60 seconds"
+        - duration: 240
+          arrivalRate: 55
+          name: "Sustained 55 rps for 180 seconds"
+
+
+scenarios:
+  - name: "name"
+    flow:
+      - post:
+          url: "/*"
+          beforeRequest: "setJSONBody"
+          afterResponse: "getResponse"
+      - put:
+          url: "/*"
+          beforeRequest: "setPurchaseJSONBody"

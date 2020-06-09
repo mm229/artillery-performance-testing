@@ -1,0 +1,26 @@
+config:
+  defaults:
+    headers:
+      target: "https://***"
+      User-Agent: 'Artillery Load Test for ***'
+      Content-Type: 'application/json'
+      Authorization: "*** {{ $processEnvironment.*** }}"
+
+  environments:
+    test:
+      target: "https://***"
+      processor: "./request_body.js"
+      phases:
+        - duration: 10
+          arrivalRate: 4
+          name: "Warm up to 4 rps"
+        - duration: 300
+          arrivalRate: 4
+          name: "Sustained 4 rps for 5 mins"
+
+scenarios:
+  - name: "test"
+    flow:
+      - post:
+          url: "/api/v2/**"
+          beforeRequest: "setJSONBody"

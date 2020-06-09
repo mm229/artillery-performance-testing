@@ -1,0 +1,21 @@
+config:
+  defaults:
+    headers:
+      target: "https://*"
+      User-Agent: 'Artillery Performance Test for *'
+      Content-Type: 'application/json'
+      Authorization: "Bearer {{ $processEnvironment.* }}"
+
+  environments:
+    test:
+      target: "https://*"
+      phases:
+        - duration: 3
+          arrivalRate: 1
+          name: "1 rps"
+
+scenarios:
+  - name: "test"
+    flow:
+      - get:
+          url: "*"

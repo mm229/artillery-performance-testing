@@ -1,0 +1,3 @@
+APP_NAME="**"
+SQUAD="**"
+CUSTODIAN_EMAIL="***"

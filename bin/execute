@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+: "${RUN_ENVIRONMENT:?RUN_ENVIRONMENT must be set}"
+: "${SCRIPT_FILE:?SCRIPT_FILE must be set}"
+
+echo "Executing artillery on ${SCRIPT_FILE} in ${RUN_ENVIRONMENT}..."
+
+## Execute artillery test
+artillery run -e ${RUN_ENVIRONMENT} ./config/${SCRIPT_FILE} --output /output/${SCRIPT_FILE%.yml}-report.json
+
+## Generate HTML report
+artillery report ./output/${SCRIPT_FILE%.yml}-report.json --output ./output/${SCRIPT_FILE%.yml}-report.html

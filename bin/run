@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+export APPLICATION
+export RUN_ENVIRONMENT
+export ASIA_QUOTE_API_KEY
+
+echo "--- :docker: Building docker image"
+docker-compose build --pull artillery
+
+echo "+++ :gun: Running test against ${APPLICATION} in ${RUN_ENVIRONMENT}"
+docker-compose run artillery

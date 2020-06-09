@@ -1,0 +1,16 @@
+version: '2.1'
+
+services:
+
+  artillery:
+    build:
+      context: .
+    volumes:
+      - ".:/app"
+      - "./output:/output"
+    environment:
+      # these envs must be set to run locally
+      - RUN_ENVIRONMENT
+      - SCRIPT_FILE
+      - ASIA_QUOTE_API_KEY
+
